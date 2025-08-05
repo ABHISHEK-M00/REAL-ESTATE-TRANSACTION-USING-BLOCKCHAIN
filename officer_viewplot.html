@@ -1,0 +1,270 @@
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3MPnSnyWwNmpnVEFkaddVvy_GWtxSejs"></script>
+</head>
+<body>
+
+{% include 'officer_header.html' %}
+
+<br>
+
+<br>
+
+<br> <br><br><br><br>
+<h2><span>VIEW</span> PLOT</h2>
+
+<table align="center">
+    <tr>
+        <th>DISTRICT</th>
+        <th>PANCHAYATH</th>
+        <th>CENT</th>
+        <th>DETAILS</th>
+        <th>STATUS</th>
+        <th>LOCATION</th>
+        <th>ACTION</th>
+
+
+    </tr>
+    {% for i in data['s2'] %}
+    <tr>
+        <td>{{ i['district_name'] }}</td>
+        <td>{{ i['name'] }}</td>
+        <td>{{ i['cent'] }}</td>
+        <td><textarea style="border: hidden;" cols="30" rows="5">{{ i['details'] }}</textarea></td>
+        <td>{{ i['statuss'] }}</td>
+        <td>
+            <a href="{{ i['location'] }}" class="btn btn-primary" target="_blank">View Location</a>
+        </td>
+            {% if i['status'] == 'pending' %}
+            <td>
+                <a href="?action=accept&pid={{ i['plot_id'] }}" class="btn btn-info btn-sm">ACCEPT</a>
+                <a href="?action=reject&pid={{ i['plot_id'] }}" class="btn btn-info btn-sm">REJECT</a>
+            </td>
+            {% endif %}
+<td>
+    <div class="dropdown">
+        <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Actions
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+                <a class="dropdown-item" href="officer_viewuser?uid={{i['user_id']}}">
+                    <i class="fas fa-user"></i> Users
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="officer_viewaadharam?pid={{i['plot_id']}}">
+                    <i class="fas fa-id-card"></i> Aadhaar
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="officer_chatwithuser?rid={{ i['login_id'] }}">
+                    <i class="fas fa-comments"></i> Chat
+                </a>
+            </li>
+        </ul>
+    </div>
+</td>
+
+
+    </tr>
+    {% endfor %}
+</table>
+
+<div id="dvMap"></div>
+
+<script>
+    // Initialize map for selecting a location
+    function initMap() {
+        const mapOptions = {
+            center: { lat: 9.9763482, lng: 76.286272 },
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+        };
+
+        const map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+
+        google.maps.event.addListener(map, "click", function (e) {
+            const latitude = e.latLng.lat();
+            const longitude = e.latLng.lng();
+            const location = `${latitude},${longitude}`;
+            document.getElementById("location").value = location;
+        });
+    }
+
+    // View specific plot location on map
+    function viewPlotLocation(location) {
+        if (!location || !location.includes(",")) {
+            alert("Invalid location data!");
+            return;
+        }
+
+        const [latitude, longitude] = location.split(",").map(coord => parseFloat(coord.trim()));
+
+        if (isNaN(latitude) || isNaN(longitude)) {
+            alert("Invalid coordinates!");
+            return;
+        }
+
+        const mapOptions = {
+            center: new google.maps.LatLng(latitude, longitude),
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+        };
+
+        const map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+
+        new google.maps.Marker({
+            position: new google.maps.LatLng(latitude, longitude),
+            map: map,
+            title: "Selected Location",
+        });
+    }
+</script>
+
+{% include 'footer.html' %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+        color: #333;
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    h2 span {
+        color: #0056b3;
+    }
+
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    table th, table td {
+        padding: 12px 20px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    table th {
+        background-color: #0056b3;
+        color: white;
+        font-weight: bold;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    #dvMap {
+        width: 90%;
+        height: 400px;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #e9ecef;
+    }
+
+    /* Dropdown Button Styling */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-toggle {
+        padding: 8px 14px;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .dropdown-toggle:hover {
+        background-color: #0056b3;
+    }
+
+    /* Dropdown Menu Styling */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 160px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        padding: 0;
+        margin-top: 5px;
+    }
+
+    .dropdown-menu li {
+        list-style-type: none;
+    }
+
+    .dropdown-menu .dropdown-item {
+        padding: 12px;
+        color: #333;
+        text-decoration: none;
+        display: block;
+        font-size: 14px;
+    }
+
+    .dropdown-menu .dropdown-item:hover {
+        background-color: #f1f1f1;
+        color: #007bff;
+    }
+
+    /* Show dropdown when hovered */
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    /* Icon styling */
+    .dropdown-menu .dropdown-item i {
+        margin-right: 8px;
+        font-size: 16px;
+    }
+
+    /* Responsive Dropdown */
+    @media (max-width: 768px) {
+        .dropdown-menu {
+            min-width: 120px;
+        }
+
+        .dropdown-toggle {
+            font-size: 12px;
+            padding: 6px 10px;
+        }
+    }
+</style>

@@ -1,0 +1,247 @@
+{% include 'admin_header.html' %}
+
+<!-- Manage District Section -->
+<section class="manage-district-section">
+    <br>
+ 
+    <h2><span>MANAGE</span> DISTRICT</h2>
+
+    <!-- Form Section -->
+    <form action="" method="post" class="district-form">
+        {% if data['s3'] %}
+        <table class="form-table" align="center">
+            <tr>
+                <th>DISTRICT</th>
+                <td><input type="text" name="dis" value="{{ data['s3'][0]['district_name'] }}" required class="form-control"></td>
+                <td colspan="2" align="center">
+                    <input type="submit" name="ups" value="UPDATE" class="form-btn">
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <table class="form-table" align="center">
+            <tr>
+                <th>DISTRICT</th>
+                <td><input type="text" name="dis" required class="form-control"></td>
+                <td colspan="2" align="center">
+                    <input type="submit" name="sub" value="SUBMIT" class="form-btn">
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+    </form>
+<br>
+        <h2><span>VIEW</span> DISTRICT</h2>
+
+    <!-- District List Table -->
+    <table class="data-table" align="center">
+        <tr>
+            <th>DISTRICT</th>
+            <th>ACTIONS</th>
+        </tr>
+        {% for i in data['s1'] %}
+        <tr>
+            <td>{{ i['district_name'] }}</td>
+            <td>
+    <a href="?action=update&did={{ i['district_id'] }}" class="btn btn-update">UPDATE</a> |
+    <a href="?action=delete&did={{ i['district_id'] }}" class="btn btn-delete">DELETE</a> | 
+    <a href="admin_managepanchayath?did={{ i['district_id'] }}" class="btn btn-manage">PANCHAYATH</a>
+</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</section>
+
+{% include 'footer.html' %}
+
+<!-- Styles -->
+<style>
+/* General Reset */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Section Styles */
+.manage-district-section {
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.manage-district-section h2 {
+    font-size: 2.5rem;
+    color: #2eca6a;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.manage-district-section h2 span {
+    color: #333;
+}
+
+/* Form Table Styles */
+.form-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.form-table th,
+.form-table td {
+    padding: 10px 15px;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.form-table th {
+    text-transform: uppercase;
+    color: #2eca6a;
+}
+
+.form-table td {
+    border: 1px solid #ddd;
+}
+
+.form-btn {
+    padding: 10px 20px;
+    background-color: #2eca6a;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.form-btn:hover {
+    background-color: #28a745;
+}
+
+/* Data Table Styles */
+.data-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.data-table th,
+.data-table td {
+    padding: 15px 10px;
+    text-align: left;
+    font-size: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.data-table th {
+    background-color: #2eca6a;
+    color: white;
+    text-transform: uppercase;
+}
+
+.data-table td {
+    background-color: #fff;
+    color: #333;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.action-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.action-link:hover {
+    color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .manage-district-section {
+        padding: 20px;
+    }
+
+    .manage-district-section h2 {
+        font-size: 2rem;
+    }
+
+    .form-table th,
+    .form-table td,
+    .data-table th,
+    .data-table td {
+        font-size: 0.9rem;
+    }
+
+    .form-btn {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+/* General Button Styles */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Update Button */
+.btn-update {
+    background-color: #28a745;
+}
+
+.btn-update:hover {
+    background-color: #218838;
+}
+
+/* Delete Button */
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Manage Button */
+.btn-manage {
+    background-color: #007bff;
+}
+
+.btn-manage:hover {
+    background-color: #0056b3;
+}
+
+/* Button Interaction */
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+</style>

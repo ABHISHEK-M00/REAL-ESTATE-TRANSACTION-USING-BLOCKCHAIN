@@ -1,0 +1,101 @@
+{% include 'user_header.html' %}
+
+<section class="view-payment-section">
+  <br><br><br><br>
+    <h1 class="section-title">VIEW PAYMENT</h1>
+    <form action="" method="post" class="payment-form">
+        <table align="center" class="table-view">
+            <tr>
+                <th>USER NAME</th>
+                <th>SQUARE FEET</th>
+                <th>AMOUNT</th>
+                <th>DATE</th>
+            </tr>
+            {% for i in data['e'] %}
+            <tr>
+                <td>{{ i['fullname'] }}</td>
+                <td>{{ i['sqft'] }}</td>
+                <td>{{ i['amount'] }}</td>
+                <td>{{ i['date'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</section>
+
+{% include 'footer.html' %}
+
+<style>
+/* General Layout */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.view-payment-section {
+    margin: 30px auto;
+    background: #fff;
+    padding: 30px;
+    max-width: 90%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #007bff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+/* Table Styles */
+.table-view {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.table-view th,
+.table-view td {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.table-view th {
+    background-color: #007bff;
+    color: white;
+    text-transform: uppercase;
+}
+
+.table-view td {
+    background-color: #fff;
+    color: #333;
+}
+
+.table-view tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .view-payment-section {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .table-view th,
+    .table-view td {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+</style>

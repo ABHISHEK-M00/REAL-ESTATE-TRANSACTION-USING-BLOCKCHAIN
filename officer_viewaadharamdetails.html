@@ -1,0 +1,187 @@
+{% include 'officer_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Aadharam</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        h2 span {
+            color: #0056b3;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #0056b3;
+            color: white;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        img {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        img:hover {
+            transform: scale(1.05); /* Slight zoom effect */
+        }
+
+        /* Modal styling */
+        #myModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        #modal-content {
+            margin: 10% auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Zoom In/Out */
+        .zoomable {
+            transition: transform 0.25s ease;
+            cursor: zoom-in;
+        }
+
+        .zoomable:active {
+            transform: scale(1.5);
+            cursor: zoom-out;
+        }
+
+        /* Close button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<br><br><br><br>
+<h2><span>VIEW</span> AADHARAM</h2>
+
+<!-- <table align="center">
+    <tr>
+        <th>AADHARAM</th>
+    </tr>
+    {% for i in data['s1'] %}
+    <tr>
+        <td>
+            <img src="{{ i['file'] }}" alt="Aadharam Document" width="150px" height="150px" class="zoomable" onclick="openModal(this)">
+        </td>
+      
+        
+    </tr>
+    {% endfor %}
+</table> -->
+
+
+<table id="tab" class="view-table" align="center">
+    <tr>
+        <th>USER AADHARAM</th>
+        <th>VERIFY</th>
+    </tr>
+    {% for i in data['s1'] %}
+    <tr>
+        <td>
+            <!-- <img src="{{ i['file'] }}" alt="Aadharam File" class="aad-img" onclick="openFullscreen(this)"> -->
+            <img src="data:image/png;base64,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" height= "100" width = "100">
+            <a href="/down/{{i['file']}}" height="100" width="100" class="btn btn-success">Click Here</a></td>
+
+        </td>
+        <!-- <td><a href="/down/<path:path>">view Image</a></td> -->
+        <td>
+            <a href="officer_add_aadharam?pid={{i['plot_id']}}&aid={{i['aadharam_id']}}" class="btn btn-secondary">Verify Aadharam</a>
+        </td>
+
+       
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- The Modal -->
+<div id="myModal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modal-content" class="zoomable">
+</div>
+
+{% include 'footer.html' %}
+
+<script>
+    // Open the modal with the image clicked
+    function openModal(img) {
+        var modal = document.getElementById("myModal");
+        var modalImg = document.getElementById("modal-content");
+        modal.style.display = "block";
+        modalImg.src = img.src;
+    }
+
+    // Close the modal when the close button is clicked
+    function closeModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
+</script>
+
+</body>
+</html>
