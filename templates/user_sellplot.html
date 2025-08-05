@@ -1,0 +1,77 @@
+{% include 'user_header.html' %}
+
+<!-- Sell Plot Section -->
+<section class="sell-plot-section">
+    <br><br><br>
+    <h2 align="center" class="section-header"><span>SELL</span> PLOT</h2>
+
+    <!-- Sell Plot Form -->
+    <form action="" method="post" class="sell-form">
+        <table align="center" class="form-table">
+
+            <tr>
+                <th>Available Cent</th>
+                <td><input type="text" readonly name="acent" id="acent" value="{{ data['e'][0]['cent'] }}" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <th>CENT</th>
+                {% if data['e'] %}
+                <td><input type="text" name="sqft" id="sqft" oninput="convertToAcre()" class="form-control"></td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>ACRES</th>
+                <td>
+                    <input type="text" name="acre" id="acre" value="{{ '%.2f'|format(data['converted_acre']) }}" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <th>AMOUNT</th>
+                <td><input type="text" name="amt" required class="form-control"></td>
+            </tr>
+            
+            <tr>
+                <td align="center" colspan="2">
+                    <input type="submit" name="sub" value="SUBMIT" class="btn-submit">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <br>
+<script>
+    function convertToAcre() {
+        const availableCents = parseFloat(document.getElementById("acent").value) || 0;
+        const cents = parseFloat(document.getElementById("sqft").value) || 0;
+        if (cents > availableCents) {
+            alert("Value exceeds available cent.");
+            document.getElementById("sqft").value = availableCents;
+        }
+        const acres = (document.getElementById("sqft").value / 100).toFixed(2);
+        document.getElementById("acre").value = acres;
+    }
+</script>
+
+    <!-- View Plot Section -->
+    <h1 align="center" class="section-title">VIEW PLOT</h1>
+    <table align="center" class="view-table">
+        <tr>
+            <th>CENT</th>
+            <th>ACRES</th>
+            <th>AMOUNT</th>
+            <th>DATE</th>
+        </tr>
+        {% for i in data['y'] %}
+        <tr>
+            <td>{{ i['cent'] }}</td>
+            <td>{{ '%.2f'|format(i['acre']) }}</td>
+            <td>{{ i['amount'] }}</td>
+            <td>{{ i['date'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</section>
+
+{% include 'footer.html' %}

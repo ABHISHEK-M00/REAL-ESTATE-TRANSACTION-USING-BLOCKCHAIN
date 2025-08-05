@@ -1,0 +1,202 @@
+{% include 'public_header.html' %}
+
+<!-- Hero Section -->
+<section id="hero" class="hero section dark-background">
+
+    <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-item active">
+            <img src="static/assets/img/hero-carousel/hero-carousel-1.jpg" alt="" class="w-100">
+            <div class="carousel-container d-flex align-items-center justify-content-center">
+                    <br><br>
+                    <br><br>
+                    <br><br>
+                   
+                <div class="form">
+                    
+                    <br>
+                    <br>
+                    <h2 id="heading">User Registration</h2>
+
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="field">
+                            <input type="text" name="fname" class="input-field" placeholder="First Name" pattern="[A-Za-z]+" required />
+                        </div>
+                        <div class="field">
+                            <input type="text" name="lname" class="input-field" placeholder="Last Name" pattern="[A-Za-z]+" required />
+                        </div>
+                        <div class="field">
+                            <input type="text" name="phone" id="phoneInput" class="input-field" placeholder="Phone Number" pattern="\d{10}" maxlength="10" title="Phone number must be exactly 10 digits" required />
+                        </div>
+                        <div class="field">
+                            <input type="text" name="email" id="emailInput" class="input-field" placeholder="Email Address" required />
+                            <small id="emailError" style="color: red; display: none;">Please enter a valid email address.</small>
+                        </div>
+                        <div class="field">
+                          Profile
+                          <input type="file" name="photo" class="input-field" accept=".jpg, .jpeg, .png" required />
+
+                        </div>
+                        <div class="field">
+                            <textarea name="address" placeholder="Address" class="input-field" required></textarea>
+                        </div>
+                        <div class="field">
+                            <label>
+                                <input type="radio" name="gen" value="Male" required /> Male
+                            </label>
+                            <label>
+                                <input type="radio" name="gen" value="Female" /> Female
+                            </label>
+                        </div>
+                        <div class="field">
+                            <input type="text" name="uname" class="input-field" placeholder="Username" required />
+                        </div>
+                        <div class="field">
+                            <input type="text" name="pass" class="input-field" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain at least one number, one uppercase and lowercase letter, and at least 8 characters." required />
+                        </div>
+                        <div class="btn">
+                            <button type="submit" name="sub" class="button1">Register</button>
+                        </div>
+                    </form>
+                </div>
+                    <br><br>
+                    <br><br>
+                    <br><br>
+            </div>
+        </div>
+    </div>
+</section><!-- /Hero Section -->
+
+<script>
+    document.getElementById('emailInput').addEventListener('input', function (e) {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const emailError = document.getElementById('emailError');
+
+        if (emailPattern.test(this.value)) {
+            emailError.style.display = 'none';  // Hide error message if valid
+            this.setCustomValidity('');  // Clear validation error
+        } else {
+            emailError.style.display = 'block';  // Show error message if invalid
+            this.setCustomValidity('Invalid email');  // Set validation error
+        }
+    });
+
+    document.getElementById('phoneInput').addEventListener('input', function (e) {
+        // Remove any non-numeric characters
+        this.value = this.value.replace(/\D/g, '');
+    });
+</script>
+
+<style>
+    /* From Uiverse.io by Praashoo7 */ 
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 0.4em;
+    background-color: #171717;
+    border-radius: 25px;
+    transition: .4s ease-in-out;
+  }
+  
+  .form:hover {
+    transform: scale(1.05);
+    border: 1px solid black;
+  }
+  
+  #heading {
+    text-align: center;
+    margin: 2em;
+    color: rgb(255, 255, 255);
+    font-size: 1.2em;
+  }
+  
+  .field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    border-radius: 25px;
+    padding: 0.6em;
+    border: none;
+    outline: none;
+    color: white;
+    background-color: #171717;
+    box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+  }
+  
+  .input-icon {
+    height: 1.3em;
+    width: 1.3em;
+    fill: white;
+  }
+  
+  .input-field {
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: #d3d3d3;
+  }
+  
+  .form .btn {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 2.5em;
+  }
+  
+  .button1 {
+    padding: 0.5em;
+    padding-left: 1.1em;
+    padding-right: 1.1em;
+    border-radius: 5px;
+    margin-right: 0.5em;
+    border: none;
+    outline: none;
+    transition: .4s ease-in-out;
+    background-color: #252525;
+    color: white;
+  }
+  
+  .button1:hover {
+    background-color: black;
+    color: white;
+  }
+  
+  .button2 {
+    padding: 0.5em;
+    padding-left: 2.3em;
+    padding-right: 2.3em;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    transition: .4s ease-in-out;
+    background-color: #252525;
+    color: white;
+  }
+  
+  .button2:hover {
+    background-color: black;
+    color: white;
+  }
+  
+  .button3 {
+    margin-bottom: 3em;
+    padding: 0.5em;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    transition: .4s ease-in-out;
+    background-color: #252525;
+    color: white;
+  }
+  
+  .button3:hover {
+    background-color: red;
+    color: white;
+  }
+</style>
+
+{% include 'footer.html' %}

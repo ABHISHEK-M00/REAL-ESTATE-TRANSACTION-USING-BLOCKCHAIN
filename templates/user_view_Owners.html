@@ -1,0 +1,134 @@
+{% include 'user_header.html' %}
+
+<section class="view-users-section">
+  <br>
+  
+  <br>
+    <h2><span>VIEW</span> USERS</h2>
+
+    <table align="center" class="user-table">
+        <tr>
+            <th>User Id</th>
+            <th>NAME</th>
+            <th>PHONE</th>
+            <th>EMAIL</th>
+            <th>PHOTO</th>
+            <th>ADDRESS</th>
+            <th>GENDER</th>
+            <th>Cents</th>
+        </tr>
+        {% for i in data['e'] %}
+        <tr>
+            <td>{{ i['tid'] }}</td>
+            <td>{{ i['fname'] }} {{ i['lname'] }}</td>
+            <td>{{ i['phone'] }}</td>
+            <td>{{ i['email'] }}</td>
+            <td>
+                <img src="{{ i['photo'] }}" alt="User Photo" class="user-photo">
+            </td>
+            <td>{{ i['address'] }}</td>
+            <td>{{ i['gender'] }}</td>
+            <td>{{ i['acent'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</section>
+
+{% include 'footer.html' %}
+
+<style>
+/* General Reset */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* View Users Section */
+.view-users-section {
+    padding: 40px 20px;
+    background: #ffffff;
+    margin: 30px auto;
+    max-width: 90%;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.view-users-section h2 {
+    font-size: 2.5rem;
+    color: #2eca6a;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.view-users-section h2 span {
+    color: #333;
+}
+
+/* Table Styles */
+.user-table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.user-table th,
+.user-table td {
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-table th {
+    background-color: #2eca6a;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.user-table td {
+    background-color: #fff;
+}
+
+.user-table tr:last-child td {
+    border-bottom: none;
+}
+
+.user-table img.user-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .view-users-section {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .view-users-section h2 {
+        font-size: 2rem;
+    }
+
+    .user-table th,
+    .user-table td {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .user-table img.user-photo {
+        width: 80px;
+        height: 80px;
+    }
+}
+</style>

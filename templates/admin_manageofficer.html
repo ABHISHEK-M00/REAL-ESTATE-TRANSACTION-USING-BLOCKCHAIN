@@ -1,0 +1,315 @@
+{% include 'admin_header.html' %}
+
+
+<!-- Manage Officer Section -->
+<section class="manage-officer-section">
+    <h2><span>MANAGE</span> OFFICER</h2>
+
+    <!-- Form Section -->
+    <form action="" method="post" class="officer-form" onsubmit="return validateForm()">
+        {% if data['s3'] %}
+        <table class="form-table">
+            <tr>
+                <th>NAME</th>
+                <td><input type="text" name="nam" id="name" class="form-control" value="{{data['s3'][0]['name']}}" required></td>
+            </tr>
+            <tr>
+                <th>PHONE</th>
+                <td><input type="text" name="phn" id="phone" pattern="[0-9]+" maxlength="10" minlength="10" class="form-control" value="{{data['s3'][0]['phone']}}" required></td>
+            </tr>
+            <tr>
+                <th>EMAIL</th>
+                <td><input type="text" name="eml" id="email" class="form-control" value="{{data['s3'][0]['email']}}" required></td>
+            </tr>
+            <tr>
+                <th>POSITION</th>
+                <td><input type="text" name="pos" class="form-control" value="{{data['s3'][0]['position']}}" required></td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2">
+                    <button type="submit" name="ups" class="form-btn">UPDATE</button>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <table class="form-table">
+            <tr>
+                <th>PANCHAYATH</th>
+                <td>
+                    {% if data['e'] %}
+                    <input type="text" name="dis" class="form-control" value="{{data['e'][0]['name']}}" readonly>
+                    <input type="hidden" name="pid" value="{{data['e'][0]['panchayath_id']}}">
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>NAME</th>
+                <td><input type="text" name="nam" id="name" class="form-control" required></td>
+            </tr>
+            <tr>
+                <th>PHONE</th>
+                <td><input type="text" name="phn" pattern="[0-9]+" maxlength="10" minlength="10" id="phone" class="form-control" required></td>
+            </tr>
+            <tr>
+                <th>EMAIL</th>
+                <td><input type="text" name="eml" id="email" class="form-control" required></td>
+            </tr>
+            <tr>
+                <th>POSITION</th>
+                <td><input type="text" name="pos" class="form-control" required></td>
+            </tr>
+            <tr>
+                <th>USERNAME</th>
+                <td><input type="text" name="uname" id="username" class="form-control" required></td>
+            </tr>
+            <tr>
+                <th>PASSWORD</th>
+                <td><input type="text" name="pass" class="form-control" required></td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2">
+                    <button type="submit" name="sub" class="form-btn">SUBMIT</button>
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+    </form>
+
+    <!-- Officer List -->
+    <table class="data-table">
+        <tr>
+            <th>PANCHAYATH</th>
+            <th>NAME</th>
+            <th>PHONE</th>
+            <th>EMAIL</th>
+            <th>POSITION</th>
+            <th>ACTIONS</th>
+        </tr>
+        {% for i in data['s1'] %}
+        <tr>
+            <td>{{ i['pname'] }}</td>
+            <td>{{ i['name'] }}</td>
+            <td>{{ i['phone'] }}</td>
+            <td>{{ i['email'] }}</td>
+            <td>{{ i['position'] }}</td>
+            <td>
+                <a href="?action=update&oid={{ i['officer_id'] }}&pid={{ data['pid'] }}" class="btn btn-update">UPDATE</a>
+                <a href="?action=delete&oid={{ i['officer_id'] }}&pid={{ data['pid'] }}" class="btn btn-delete">DELETE</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</section>
+
+{% include 'footer.html' %}
+
+<!-- JavaScript Validations -->
+<script>
+function validateForm() {
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
+    const username = document.getElementById('username');
+
+    // Phone validation: numeric and exactly 10 digits
+    if (!/^[0-9]{10}$/.test(phone)) {
+        alert('Phone number must be numeric and exactly 10 digits.');
+        return false;
+    }
+
+    // Email validation: proper format
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        alert('Please enter a valid email address.');
+        return false;
+    }
+
+    // Username and Email uniqueness validation
+    // This is an example; actual implementation should check uniqueness with server-side validation.
+    const uniqueUsernames = ['user1', 'user2']; // Example existing usernames
+    const uniqueEmails = ['example1@example.com', 'example2@example.com']; // Example existing emails
+
+    if (username && uniqueUsernames.includes(username.value)) {
+        alert('Username must be unique.');
+        return false;
+    }
+
+    if (uniqueEmails.includes(email)) {
+        alert('Email must be unique.');
+        return false;
+    }
+
+    return true;
+}
+</script>
+
+
+<!-- Styles -->
+<style>
+/* General Reset */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Section Styles */
+.manage-officer-section {
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.manage-officer-section h2 {
+    font-size: 2.5rem;
+    color: #2eca6a;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.manage-officer-section h2 span {
+    color: #333;
+}
+
+/* Form Table Styles */
+.form-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.form-table th,
+.form-table td {
+    padding: 10px 15px;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.form-table th {
+    text-transform: uppercase;
+    color: #2eca6a;
+}
+
+.form-table td {
+    border: 1px solid #ddd;
+}
+
+.form-btn {
+    padding: 10px 20px;
+    background-color: #2eca6a;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.form-btn:hover {
+    background-color: #28a745;
+}
+
+/* Data Table Styles */
+.data-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.data-table th,
+.data-table td {
+    padding: 15px 10px;
+    text-align: left;
+    font-size: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.data-table th {
+    background-color: #2eca6a;
+    color: white;
+    text-transform: uppercase;
+}
+
+.data-table td {
+    background-color: #fff;
+    color: #333;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Update Button */
+.btn-update {
+    background-color: #28a745;
+}
+
+.btn-update:hover {
+    background-color: #218838;
+}
+
+/* Delete Button */
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Button Interaction */
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .manage-officer-section {
+        padding: 20px;
+    }
+
+    .manage-officer-section h2 {
+        font-size: 2rem;
+    }
+
+    .form-table th,
+    .form-table td,
+    .data-table th,
+    .data-table td {
+        font-size: 0.9rem;
+    }
+
+    .form-btn {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+</style>

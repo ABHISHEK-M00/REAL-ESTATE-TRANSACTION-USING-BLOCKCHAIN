@@ -1,0 +1,146 @@
+{% include "user_header.html" %}
+
+<main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+
+        <div class="carousel-item active">
+          <img src="static/assets/img/hero-carousel/hero-carousel-1.jpg" alt="">
+          <div class="carousel-container">
+            <div>
+              <h2><span>Find</span> Your Dream Property</h2>
+              <a href="user_home" class="btn-get-started">Welcome User : {{ ss }}</a>
+            </div>
+          </div>
+        </div><!-- End Carousel Item -->
+
+        <div class="carousel-item">
+          <img src="static/assets/img/hero-carousel/hero-carousel-2.jpg" alt="">
+          <div class="carousel-container">
+            <div>
+              <h2><span>Sell</span> Your Property with Ease</h2>
+              <a href="user_home" class="btn-get-started">Welcome User : {{ ss }}</a>
+            </div>
+          </div>
+        </div><!-- End Carousel Item -->
+
+        <div class="carousel-item">
+          <img src="static/assets/img/hero-carousel/hero-carousel-3.jpg" alt="">
+          <div class="carousel-container">
+            <div>
+              <h2><span>Connect</span> with Verified Buyers</h2>
+              <a href="user_home" class="btn-get-started">User-Home</a>
+            </div>
+          </div>
+        </div><!-- End Carousel Item -->
+
+        <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+
+        <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+          <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+        </a>
+
+        <ol class="carousel-indicators"></ol>
+
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Our Services</h2>
+        <p>Explore a wide range of real estate services tailored for you.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-house"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>Buy Properties</h3>
+              </a>
+              <p>Discover a variety of properties available for sale in your preferred location.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-cash-coin"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>Sell Properties</h3>
+              </a>
+              <p>List your property and connect with verified buyers easily and securely.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-person-check"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>Verified Documents</h3>
+              </a>
+              <p>Upload and manage property documents with our secure verification process.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-chat"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>Connect with Officers</h3>
+              </a>
+              <p>Seamlessly interact with government officers for property approvals and updates.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-building"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>Explore Listings</h3>
+              </a>
+              <p>Browse properties available for sale or purchase based on your needs.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-envelope"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>File Complaints</h3>
+              </a>
+              <p>Have an issue? File a complaint and get a prompt resolution from our support team.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Services Section -->
+  </main>
+    
+{% include "footer.html" %}

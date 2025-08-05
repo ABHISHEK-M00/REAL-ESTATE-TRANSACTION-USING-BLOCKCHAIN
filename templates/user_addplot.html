@@ -1,0 +1,221 @@
+{% include 'user_header.html' %}
+
+<!-- Hero Section -->
+<section id="hero" class="hero section" style="background-color: #eef2f7; padding: 50px 0;">
+
+  <div class="container" style="max-width: 1200px; margin: auto;">
+
+    <br>
+
+    <!-- Add Plot Section -->
+    <div class="card" style="border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); border-radius: 10px; overflow: hidden; margin-bottom: 30px;">
+      <div class="card-header" style="background: #2eca6a; color: white; padding: 20px; font-size: 1.5rem; font-weight: bold; text-align: center;">
+        Add Plots and AAdharam
+      </div>
+      <div class="card-body" style="padding: 30px; background: white;">
+
+        <form action="" method="post" enctype="multipart/form-data">
+          <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-6" style="margin-bottom: 15px;">
+              <label for="district" style="font-weight: bold;">District</label>
+              <select name="dis" id="district" required class="form-control" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                <option value="" disabled selected>Select District</option>
+                {% for i in data['did'] %}
+                <option value="{{ i['district_id'] }}">{{ i['district_name'] }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 15px;">
+              <label for="panchayath" style="font-weight: bold;">Panchayath</label>
+              <select name="pan" id="panchayath" required class="form-control" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                <option value="" disabled selected>Select Panchayath</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-6">
+                <label for="sqft" style="font-weight: bold;">Cent</label>
+                <input type="text" name="sqft" id="sqft" required 
+                       oninput="convertToAcre()" class="form-control" 
+                       style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            </div>
+            <div class="col-md-6">
+                <label for="acre" style="font-weight: bold;">Acre</label>
+                <input type="text" id="acre" readonly 
+                       class="form-control" 
+                       style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            </div>
+            <div class="col-md-6">
+              <label for="acre" style="font-weight: bold;">Files</label>
+              <input type="file" name="aad" readonly 
+                     class="form-control" accept=".pdf"
+                     style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          </div>
+
+          <div class="col-md-6">
+            <label for="acre" style="font-weight: bold;">Files 1</label>
+            <input type="file" name="f1" readonly 
+                   class="form-control" accept=".pdf"
+                   style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+
+        <div class="col-md-6">
+          <label for="acre" style="font-weight: bold;">Files 2</label>
+          <input type="file" name="f2" readonly 
+                 class="form-control" accept=".pdf"
+                 style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      </div>
+
+
+          <div class="col-md-6">
+            <label for="acre" style="font-weight: bold;">Location</label>
+            <input type="text"  name="location" id="location" required class="form-control" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex: 1;">
+             
+        </div>
+        </div>        
+            <div class="col-md-6">
+              <label for="det" style="font-weight: bold;">Details</label>
+              <textarea name="det" required class="form-control" rows="3" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+            </div>
+          </div>
+          
+
+          <div class="text-center">
+            <input type="submit" name="sub" value="Add Plot" class="btn btn-success" style="padding: 10px 30px; font-size: 1rem; border-radius: 5px; border: none;">
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- View Plot Section -->
+    <div class="card" style="border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); border-radius: 10px;">
+      <div class="card-header" style="background: #2eca6a; color: white; padding: 20px; font-size: 1.5rem; font-weight: bold; text-align: center;">
+        View Plots and AAdharam
+      </div>
+      <div class="card-body" style="padding: 30px; background: white;">
+
+        <table class="table table-striped" style="width: 100%; text-align: left; border-collapse: collapse;">
+          <thead style="background: #34495e; color: white;">
+            <tr>
+              <th style="padding: 10px;">District</th>
+              <th style="padding: 10px;">Panchayath</th>
+              <th style="padding: 10px;">Cent</th>
+              <th style="padding: 10px;">Details</th>
+              <th style="padding: 10px;">Status</th>
+              <th style="padding: 10px;">Location</th>
+              <th style="padding: 10px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in data['s2'] %}
+            <tr>
+              <td style="padding: 10px;">{{ i['district_name'] }}</td>
+              <td style="padding: 10px;">{{ i['name'] }}</td>
+              <td style="padding: 10px;">{{ i['cent'] }}</td>
+              <td><textarea name="det" readonly class="form-control" rows="3" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">{{ i['details'] }}</textarea>
+              <td style="padding: 10px;">{{ i['statuss'] }}</td>
+              <td style="padding: 10px;">
+                <!-- <button type="button" class="btn btn-primary btn-sm" onclick="viewPlotLocation('{{ i['location'] }}')">View on Map</button> -->
+                <a href="{{ i['location'] }}" class="btn btn-primary" target="_blank">View Location</a>
+              </td>
+              <td style="padding: 10px;">
+                
+                <a href="user_uploadaadharam?aid={{ i['aadharam_id'] }}" class="btn btn-sm btn-warning">View Aadharam</a>
+                <a href="user_view_Owners?aid={{ i['aadharam_id'] }}" class="btn btn-success">View Owners</a>
+                <a href="user_sellplot?aid={{ i['aadharam_id'] }}&sqft={{ i['cent'] }}" class="btn btn-sm btn-danger">Sell Plot</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+{% include 'footer.html'%}
+  
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3MPnSnyWwNmpnVEFkaddVvy_GWtxSejs"></script>
+<script>
+    // Initialize map for selecting a location
+    function initMap() {
+        const mapOptions = {
+            center: { lat: 9.9763482, lng: 76.286272 },
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+        };
+
+        const map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+
+        google.maps.event.addListener(map, "click", function (e) {
+            const latitude = e.latLng.lat();
+            const longitude = e.latLng.lng();
+            const location = `${latitude},${longitude}`;
+            document.getElementById("location").value = location;
+        });
+    }
+
+    // View specific plot location on map
+    function viewPlotLocation(location) {
+        if (!location || !location.includes(",")) {
+            alert("Invalid location data!");
+            return;
+        }
+
+        const [latitude, longitude] = location.split(",").map(coord => parseFloat(coord.trim()));
+
+        if (isNaN(latitude) || isNaN(longitude)) {
+            alert("Invalid coordinates!");
+            return;
+        }
+
+        const mapOptions = {
+            center: new google.maps.LatLng(latitude, longitude),
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+        };
+
+        const map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+
+        new google.maps.Marker({
+            position: new google.maps.LatLng(latitude, longitude),
+            map: map,
+            title: "Selected Location",
+        });
+    }
+
+    // Load Panchayath options dynamically
+    $(document).ready(function () {
+        $('#district').on('change', function () {
+            const districtId = $(this).val();
+            $('#panchayath').html('<option value="" disabled selected>Loading...</option>');
+
+            $.ajax({
+                url: '/user_addplot',
+                type: 'POST',
+                data: { district_id: districtId },
+                success: function (response) {
+                    $('#panchayath').html('<option value="" disabled selected>Select Panchayath</option>');
+                    response.forEach(function (item) {
+                        $('#panchayath').append(
+                            `<option value="${item.panchayath_id}">${item.name}</option>`
+                        );
+                    });
+                },
+                error: function () {
+                    alert('Error loading Panchayaths. Please try again.');
+                }
+            });
+        });
+    });
+    function convertToAcre() {
+      const cents = document.getElementById("sqft").value;
+      const acres = (cents / 100).toFixed(2); // Conversion factor: 1 acre = 100 cents
+      document.getElementById("acre").value = acres;
+  }
+</script>

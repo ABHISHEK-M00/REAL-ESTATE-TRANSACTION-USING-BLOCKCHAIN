@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Request Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #0056b3;
+        }
+
+        form {
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px 20px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #2eca6a;
+            color: white;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            padding: 8px 16px;
+            font-size: 14px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        a[href^="user_makepayment"] {
+            background-color: #28a745;
+            color: white;
+        }
+
+        a[href^="user_makepayment"]:hover {
+            background-color: #218838;
+        }
+
+        a[href^="?action=send"] {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        a[href^="?action=send"]:hover {
+            background-color: #138496;
+        }
+
+        a[href^="user_viewofficerrequeststatus"] {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        a[href^="user_viewofficerrequeststatus"]:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+
+{% include 'user_header.html' %}
+
+<br><br><br><br>
+
+
+<h1>VIEW REQUEST STATUS</h1>
+
+<form action="" method="post">
+    <table align="center">
+        <tr>
+            <th>CENT</th>
+            <th>ACTUAL AMOUNT</th>
+            <th>REQUESTED AMOUNT</th>
+            <th>DATE</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+        </tr>
+        {% for i in data['e'] %}
+        <tr>
+            <td>{{ i['r_cent'] }}</td>
+            <td>{{ i['sell_amt'] }}</td>
+            <td>{{ i['request_amt'] }}</td>
+            <td>{{ i['date'] }}</td>
+            <td>{{ i['status'] }}</td>
+                {% if i['status'] == 'Accepted' %}
+                <td><a href="user_makepayment?rid={{ i['request_id'] }}&amt={{ i['request_amt'] }}">PAY NOW</a></td>
+                {% endif %}
+                {% if i['status'] == 'paid' %}
+                <td>
+
+                    <a href="?action=send&rid={{ i['request_id'] }}&sid={{ i['sell_id'] }}">REQUEST OFFICER</a>
+                    <a href="user_viewofficerrequeststatus?rid={{ i['request_id'] }}">OFFICER REQUEST STATUS</a>
+                </td>
+
+                {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+
+{% include 'footer.html' %}
+
+</body>
+</html>

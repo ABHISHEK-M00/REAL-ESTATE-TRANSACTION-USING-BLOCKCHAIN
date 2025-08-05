@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        h2 span {
+            color: #0056b3;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px 20px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #0056b3;
+            color: white;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        img {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+{% include 'officer_header.html' %}
+<br><br><br><br><br>
+<h2><span>VIEW</span> USERS</h2>
+
+<table align="center">
+    <tr>
+        <th>NAME</th>
+        <th>PHONE</th>
+        <th>EMAIL</th>
+        <th>PHOTO</th>
+        <th>ADDRESS</th>
+        <th>GENDER</th>
+    </tr>
+    {% for i in data['s1'] %}
+    <tr>
+        <td>{{ i['fullname'] }}</td>
+        <td>{{ i['phone'] }}</td>
+        <td>{{ i['email'] }}</td>
+        <td><img src="{{ i['photo'] }}" alt="User Photo" width="100px" height="100px"></td>
+        <td>{{ i['address'] }}</td>
+        <td>{{ i['gender'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% include 'footer.html' %}
+
+</body>
+</html>

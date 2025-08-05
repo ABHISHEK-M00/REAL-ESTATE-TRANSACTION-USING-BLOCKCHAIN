@@ -1,0 +1,179 @@
+{% include 'user_header.html' %}
+
+<!-- View Request Section -->
+<section class="view-request-section">
+    <br>
+
+    <h1 class="section-title">VIEW REQUEST</h1>
+    <form action="{{ url_for('user.user_viewrequest') }}" method="post" class="request-form">
+        <table align="center" class="table-view">
+            <tr>
+                <th>USER NAME</th>
+                <th>CENT</th>
+                <th>ACTUAL AMOUNT</th>
+                <th>REQUESTED CENTS</th>
+                <th>REQUESTED AMOUNT</th>
+                <th>DATE</th>
+                <th>STATUS</th>
+                <th>ACTION</th>
+            </tr>
+            {% for i in data['e'] %}
+            <tr>
+                <td>{{ i['fullname'] }}</td>
+                <td>{{ i['cent'] }}</td>
+                <td>
+                    <input type="hidden" name="sell_id" value="{{ i['sell_id'] }}">
+                    {% if i['status'] == 'pending' and not i['updated_once'] %}
+                        <input type="text" name="amt" value="{{ i['sell_amt'] }}" class="form-control">
+                    {% else %}
+                        <input type="text" name="amt" value="{{ i['sell_amt'] }}" class="form-control" disabled>
+                    {% endif %}
+                </td>
+                <td>{{ i['r_cent'] }}</td>
+                <td>{{ i['request_amt'] }}</td>
+                <td>{{ i['date'] }}</td>
+                <td>{{ i['status'] }}</td>
+
+                {% if i['status'] == 'pending' %}
+                <td>
+                    <form action="{{ url_for('user.user_viewrequest') }}" method="post">
+                        <input type="hidden" name="action" value="accept-{{ i['sell_id'] }}">
+                        <button type="submit" class="btn-accept">ACCEPT</button>
+                    </form> |
+                    <form action="{{ url_for('user.user_viewrequest') }}" method="post">
+                        <input type="hidden" name="action" value="reject-{{ i['sell_id'] }}">
+                        <button type="submit" class="btn-reject">REJECT</button>
+                    </form>
+                </td>
+                {% elif i['status'] == 'paid' %}
+                <td>
+                    <a href="user_viewpayment?rid={{ i['request_id'] }}" class="btn-view-payment">VIEW PAYMENT</a>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</section>
+
+{% include 'footer.html' %}
+
+<!-- Styling -->
+<style>
+/* General Layout */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.view-request-section {
+    margin: 30px auto;
+    background: #fff;
+    padding: 30px;
+    max-width: 90%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #2eca6a;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+/* Table Styles */
+.table-view {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table-view th,
+.table-view td {
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+.table-view th {
+    background-color: #2eca6a;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.table-view td {
+    background-color: #fff;
+}
+
+.table-view td input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.table-view td button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.table-view td button:hover {
+    background-color: #555;
+}
+
+.table-view td .btn-accept {
+    background-color: #28a745;
+}
+
+.table-view td .btn-reject {
+    background-color: #dc3545;
+}
+
+.table-view td .btn-view-payment {
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.table-view td .btn-view-payment:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .view-request-section {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .table-view th,
+    .table-view td {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .table-view td button {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+}
+</style>

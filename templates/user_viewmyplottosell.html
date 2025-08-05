@@ -1,0 +1,221 @@
+{% include 'user_header.html' %}
+
+<!-- View Plot to Sell Section -->
+<section class="view-plot-section">
+    <br><br><br><br><br>    
+
+    <h2 class="section-header"><span>VIEW</span> PLOT TO SELL</h2>
+
+    <table align="center" class="table-view">
+        <tr>
+            <th>DISTRICT</th>
+            <th>PANCHAYATH</th>
+            <th>CENT</th>
+            <th>ACRES</th>
+            <th>AMOUNT</th>
+            <th>DETAILS</th>
+            <!-- <th>STATUS</th> -->
+            <th>DATE</th>
+            <th>LOCATION</th>
+            <th>ACTION</th>
+        </tr>
+        {% for i in data['e'] %}
+        <tr>
+            <td>{{ i['district_name'] }}</td>
+            <td>{{ i['name'] }}</td>
+            <td>{{ i['cent'] }}</td>
+            <td>{{ '%.2f'|format(i['acre']) }}</td>
+                <td>{{ i['amount'] }}</td>
+            <td>
+                <textarea name="" id="" cols="30" readonly style="border: hidden;">{{ i['details'] }}</textarea>
+            </td>
+           <!-- <td>{{ i['status'] }}</td> -->
+            <td>{{ i['date'] }}</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm" onclick="viewPlotLocation('{{ i['location'] }}')">
+                    Map
+                </button>
+            </td>
+            <td>
+                <a href="user_viewrequest?sid={{ i['sell_id'] }}" class="btn btn-info btn-sm">VIEW REQUEST</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</section>
+
+<!-- Map Section -->
+<div id="dvMap" class="map-container"></div>
+<button id="closeMapButton" style="display: none;" onclick="closeMap()">Close Map</button>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3MPnSnyWwNmpnVEFkaddVvy_GWtxSejs"></script>
+<script>
+    // View specific plot location on map
+    function viewPlotLocation(location) {
+        if (!location || !location.includes(",")) {
+            alert("Invalid location data!");
+            return;
+        }
+
+        const [latitude, longitude] = location.split(",").map(coord => parseFloat(coord.trim()));
+
+        if (isNaN(latitude) || isNaN(longitude)) {
+            alert("Invalid coordinates!");
+            return;
+        }
+
+        const mapContainer = document.getElementById("dvMap");
+        const closeMapButton = document.getElementById("closeMapButton");
+
+        // Display map and close button
+        mapContainer.style.display = "block";
+        closeMapButton.style.display = "block";
+
+        const mapOptions = {
+            center: new google.maps.LatLng(latitude, longitude),
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+        };
+
+        const map = new google.maps.Map(mapContainer, mapOptions);
+
+        new google.maps.Marker({
+            position: new google.maps.LatLng(latitude, longitude),
+            map: map,
+            title: "Selected Location",
+        });
+    }
+
+    // Hide the map container
+    function closeMap() {
+        const mapContainer = document.getElementById("dvMap");
+        const closeMapButton = document.getElementById("closeMapButton");
+
+        mapContainer.style.display = "none";
+        closeMapButton.style.display = "none";
+    }
+</script>
+
+{% include 'footer.html' %}
+
+<style>
+/* General Reset */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* View Plot Section */
+.view-plot-section {
+    padding: 40px 20px;
+    background: #ffffff;
+    margin: 30px auto;
+    max-width: 90%;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.section-header {
+    font-size: 2.5rem;
+    color: #2eca6a;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.section-header span {
+    color: #333;
+}
+
+/* Table Styles */
+.table-view {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table-view th,
+.table-view td {
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+}
+
+.table-view th {
+    background-color: #2eca6a;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.table-view td {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.table-view tr:last-child td {
+    border-bottom: none;
+}
+
+.table-view td button {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.table-view td button:hover {
+    background-color: #218838;
+}
+
+.view-request-btn {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.view-request-btn:hover {
+    text-decoration: underline;
+}
+
+/* Map Container */
+.map-container {
+    display: none; /* Hide the map initially */
+    width: 50%;
+    height: 400px;
+    margin-top: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .view-plot-section {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .section-header {
+        font-size: 2rem;
+    }
+
+    .table-view th,
+    .table-view td {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .table-view td button {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+}
+</style>

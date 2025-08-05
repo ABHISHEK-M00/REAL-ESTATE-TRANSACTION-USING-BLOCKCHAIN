@@ -1,0 +1,154 @@
+{% include 'user_header.html' %}
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+
+  h2 {
+    text-align: center;
+    color: #343a40;
+    margin-top: 20px;
+    font-size: 28px;
+  }
+
+  h2 span {
+    color: #2eca6a;
+    font-weight: bold;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  form {
+    margin-bottom: 20px;
+  }
+
+  label {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  textarea {
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+  }
+
+  textarea:focus {
+    border-color: #2eca6a;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+
+  input[type="submit"] {
+    background-color: #2eca6a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #2eca6a;
+  }
+
+  hr {
+    margin: 30px 0;
+    border: 0;
+    border-top: 1px solid #e9ecef;
+  }
+
+  h3 {
+    color: #343a40;
+    margin-bottom: 15px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+
+  table th, table td {
+    padding: 10px 15px;
+    text-align: left;
+    border: 1px solid #e9ecef;
+  }
+
+  table th {
+    background-color: #2eca6a;
+    color: white;
+  }
+
+  table tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+
+  table tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+
+  table tr:hover {
+    background-color: #e9ecef;
+  }
+</style>
+
+<br><br><br><br><br><br>
+<h2><span>SEND</span> COMPLAINTS</h2>
+
+<div class="container">
+
+  <div align="center">
+    <form action="" method="post">
+      <div style="margin-bottom: 20px;">
+        <label for="com">Complaint:</label>
+        <textarea name="com" id="com" rows="4" required></textarea>
+      </div>
+      <div>
+        <input type="submit" name="sub" value="Send">
+      </div>
+    </form>
+
+    <hr>
+
+    <h3>View Replies</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Complaints</th>
+          <th>Reply</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in data['x'] %}
+        <tr>
+          <td>{{ i['complaint'] }}</td>
+          <td>{{ i['reply'] }}</td>
+          <td>{{ i['date'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% include 'footer.html' %}

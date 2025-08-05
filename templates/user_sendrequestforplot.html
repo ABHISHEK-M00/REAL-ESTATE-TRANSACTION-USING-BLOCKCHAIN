@@ -1,0 +1,123 @@
+{% include 'user_header.html' %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        font-size: 28px;
+        margin-top: 20px;
+    }
+
+    h2 span {
+        color: #007bff;
+    }
+
+    form {
+        margin: 30px auto;
+        width: 50%;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        text-align: left;
+        padding: 10px;
+        color: #555;
+        font-size: 16px;
+    }
+
+    td {
+        padding: 10px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    .form-control {
+        margin-top: 5px;
+    }
+
+    .btn-info.btn-sm {
+        font-size: 14px;
+        text-transform: uppercase;
+    }
+</style>
+
+<br><br><br><br><br>
+<h2><span>SEND</span> REQUEST</h2>
+
+
+<form action="" method="post" onsubmit="return validateForm()">
+    <table align="center">
+
+        <tr>
+            <th>Avialble Cent</th>
+            <td><input type="text" name="acent" value="{{data['pl'][0]['acent']}}" readonly value="" class="form-control"></td>
+        </tr>
+        <tr>
+            <th>Required Cent</th>
+            <td><input type="text" name="cent" required class="form-control"></td>
+        </tr>
+        <tr>
+            <th>Amount</th>
+            <td><input type="text" name="amt" required class="form-control"></td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <input type="submit" name="sub" value="Request" class="btn btn-info btn-sm">
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+<script>
+    function validateForm() {
+        const availableCent = parseFloat(document.querySelector('input[name="acent"]').value);
+        const requiredCent = parseFloat(document.querySelector('input[name="cent"]').value);
+
+        if (requiredCent > availableCent) {
+            alert("Required Cent cannot be greater than Available Cent.");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+
+{% include 'footer.html' %}

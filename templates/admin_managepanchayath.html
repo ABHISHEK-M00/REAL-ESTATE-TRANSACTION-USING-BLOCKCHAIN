@@ -1,0 +1,286 @@
+{% include 'admin_header.html' %}
+
+<!-- Manage Panchayath Section -->
+<section class="manage-panchayath-section">
+    <h2><span>MANAGE</span> PANCHAYATH</h2>
+
+    <!-- Form Section -->
+    <form action="" method="post" class="panchayath-form">
+        {% if data['s3'] %}
+        <table class="form-table">
+            <tr>
+                <th>PANCHAYATH NAME</th>
+                <td><input type="text" name="pan" class="form-control" value="{{data['s3'][0]['name']}}" required></td>
+            </tr>
+            <tr>
+                <th>PHONE</th>
+                <td><input type="text" name="phn" class="form-control" value="{{data['s3'][0]['phone']}}" required></td>
+            </tr>
+            <tr>
+                <th>EMAIL</th>
+                <td><input type="text" name="eml" class="form-control" value="{{data['s3'][0]['email']}}" required></td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2">
+                    <button type="submit" name="ups" class="form-btn">UPDATE</button>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <table class="form-table">
+            <tr>
+                <th>DISTRICT</th>
+                <td>
+                    {% if data['e'] %}
+                    <input type="text" name="dis" class="form-control" value="{{data['e'][0]['district_name']}}" readonly>
+                    <input type="hidden" name="did" value="{{data['e'][0]['district_id']}}">
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>PANCHAYATH NAME</th>
+                <td><input type="text" name="pan" class="form-control" required></td>
+            </tr>
+            <tr>
+                <th>PHONE</th>
+                <td><input type="text" name="phn" pattern="[0-9]+" maxlength="10" minlength="10" class="form-control" required></td>
+            </tr>
+            <tr>
+                <th>EMAIL</th>
+                <td>
+                    <input type="text" name="eml" class="form-control" 
+                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}" 
+                           title="Please enter a valid email address" 
+                           required>
+                </td>
+            </tr>            
+            <tr>
+                <td>
+                    <div class="button-container">
+                        <button type="submit" name="sub" class="form-btn">SUBMIT</button>
+                    </div>
+                </td>
+            </tr>
+            
+        </table>
+        {% endif %}
+
+        <br>
+
+        <!-- Panchayath List -->
+        <table class="data-table" style="width: 1000px;">
+            <tr>
+                <th>DISTRICT</th>
+                <th>PANCHAYATH</th>
+                <th>PHONE</th>
+                <th>EMAIL</th>
+                <th>ACTIONS</th>
+            </tr>
+            {% for i in data['s1'] %}
+            <tr>
+                <td>{{ i['district_name'] }}</td>
+                <td>{{ i['name'] }}</td>
+                <td>{{ i['phone'] }}</td>
+                <td>{{ i['email'] }}</td>
+                <td>
+                    <a href="?action=update&pid={{ i['panchayath_id'] }}&did={{ data['did'] }}" class="btn btn-update">UPDATE</a>
+                    <a href="?action=delete&pid={{ i['panchayath_id'] }}&did={{ data['did'] }}" class="btn btn-delete">DELETE</a>
+                    <a href="admin_manageofficer?pid={{ i['panchayath_id'] }}&did={{ data['did'] }}" class="btn btn-manage">MANAGE OFFICER</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</section>
+
+{% include 'footer.html' %}
+
+<style>/* General Reset */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+    
+    /* Section Styles */
+    .manage-panchayath-section {
+        padding: 40px 20px;
+        max-width: 1000px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    .manage-panchayath-section h2 {
+        font-size: 2.5rem;
+        color: #2eca6a;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+    
+    .manage-panchayath-section h2 span {
+        color: #333;
+    }
+    
+    /* Form Table Styles */
+    .form-table {
+        width: 100%;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+    }
+    
+    .form-table th,
+    .form-table td {
+        padding: 10px 15px;
+        font-size: 1rem;
+        text-align: left;
+    }
+    
+    .form-table th {
+        text-transform: uppercase;
+        color: #2eca6a;
+        font-weight: bold;
+    }
+    
+    .form-table td {
+        border: 1px solid #ddd;
+    }
+    
+    /* Form Button */
+    .form-btn {
+        padding: 10px 20px;
+        background-color: #2eca6a;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 1rem;
+    }
+    
+    .form-btn:hover {
+        background-color: #28a745;
+    }
+    
+    .button-container {
+        text-align: center;
+    }
+    
+    /* Data Table Styles */
+    .data-table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 15px 10px;
+        text-align: left;
+        font-size: 1rem;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .data-table th {
+        background-color: #2eca6a;
+        color: white;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    
+    .data-table td {
+        background-color: #fff;
+        color: #333;
+    }
+    
+    .data-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    /* Button Styles */
+    .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 5px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
+    /* Update Button */
+    .btn-update {
+        background-color: #28a745;
+    }
+    
+    .btn-update:hover {
+        background-color: #218838;
+    }
+    
+    /* Delete Button */
+    .btn-delete {
+        background-color: #dc3545;
+    }
+    
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+    
+    /* Manage Button */
+    .btn-manage {
+        background-color: #007bff;
+    }
+    
+    .btn-manage:hover {
+        background-color: #0056b3;
+    }
+    
+    /* Button Interaction */
+    .btn:hover {
+        transform: scale(1.05);
+    }
+    
+    .btn:active {
+        transform: scale(0.95);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .manage-panchayath-section {
+            padding: 20px;
+        }
+    
+        .manage-panchayath-section h2 {
+            font-size: 2rem;
+        }
+    
+        .form-table th,
+        .form-table td,
+        .data-table th,
+        .data-table td {
+            font-size: 0.9rem;
+        }
+    
+        .form-btn {
+            font-size: 0.9rem;
+            padding: 8px 16px;
+        }
+    
+        .btn {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+        }
+    }
+    </style>

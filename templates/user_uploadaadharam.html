@@ -1,0 +1,232 @@
+{% include 'user_header.html' %}
+
+<br><br><br><br><br>
+
+<form action="" method="post" enctype="multipart/form-data" class="upload-form">
+    <!-- <table align="center" class="upload-table">
+        <tr>
+            <th>Title</th>
+            <td><input type="text" name="title" required class="form-control file-input"></td>
+        </tr>
+        <tr>
+            <th>AADHARAM</th>
+            <td><input type="file" name="aad" required class="form-control file-input"></td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <input type="submit" name="sub" value="UPLOAD" class="btn-upload">
+            </td>
+        </tr>
+    </table> -->
+
+    <br>
+
+    <h1 align="center" class="title">VIEW AADHARAM</h1>
+    <table id="tab" class="view-table" align="center">
+        <tr>
+            <th>AADHARAM</th>
+        </tr>
+        {% for i in data['s1'] %}
+        <tr>
+            <td>
+                
+                <!-- <img src="{{ i['file'] }}" alt="Aadharam File" class="aad-img" onclick="openFullscreen(this)"> -->
+                <!-- <img src="/down/{{i['file']}}" height= "100" width = "100"><a href="/down/{{i['file']}}" height="100" width="100">Click Here</a></td> -->
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAnFBMVEX////vQDbW1tf+9fTvKhz//PzyLyHuLB7/397tLiH/0c/vPjTwOjDV3N3odnDuNCjvRz72p6XybWb85OP2op/zg3vuJhXvNiv+8O74urbV1NXe3Nz4vrv5x8LuIxHxaGD71dLvEQD3d3H18O/r5+fzUUjk4eDZyMfjm5fcvLrU3+Hrb2f1mpb60M/3sKv84d/0j4nzgXnxW1H6l5PnGJ+tAAAEA0lEQVR4nO3d/1+aQBzHcUCIzqNhkQc6QXRrX8rU6v//33YcUKaVbHn3AfZ+/bSHjnPPB34A3SOyLIQQQgghhBBCCP135UPd0fquz3ymucVXjxC49LmtO9dxvpEBJ652nxJOv1MJb/TvQSV0pj9ogAMTu1AJHYdmGE0KnSnFMBoVkgyjWSHFMBoWOlPjw2haaH4YzQtNDyOB0PAwUgjNDiOJ0OgwEgkNDiOV0NwwkgmNDSOd0DH0mZFUaOR4Qyo0Moy0QhPDSCyU6SbSC3UPI71Q98m/BULNw9gGod5hbIlQ4zC2RKhxGA0JL44TdZ38zQjPfh4VahtGM8L41/GdqGsYzQg5b7IP9QyjGaEdzG8b7UUNw2hIaAc3v28vmtRZoc3PRl+adHfq440xoTQGTRIdFjbrDEIIISQPQgghpA9CCCGkD0IIIaQPQgghpA9CCCGkD0IIIaQPQgghpA9CCCGkD0IIIaQPQgghpA9CCCGkD0IIPyWMmSuEz/zMDYP6sYD5blY8KAQLg517TnF3N9YJYbzKo0GxjRfNlqI0Bsv0PCn/TUm+XvphbeSjaLe0MZFSyO53tkvmYfFYePlqNW8dxrXw1RMbvytC73yYphu15UNcC5NcPpgnpXHJui0cLhhjLrsuNh3xUpgs1F0JBX9SyG34LJwLvyps/CrUwnu1hzi7k5tOwkooyud5nK2KJedBLbwKPliu1ULbFqncNHstLP7KUi3JeyCMx3JbzveFtnr/ruIeCIMrS91ycV9oi0H5QPeFxdvRfkOoDq6S3nmhghzOYfGjlPKJbdx5IS/ejMWfD4ScyUXXYXW2YGFZ3DGhPC0UNwa+C94QqkGcVcL1dV1zIrlwIVwRjotTe1ps+Y6Q7V/TNH8VaqG86o7Ky7Ohcn28DzsprDfblqy35/CyEq4exlXNDznUwmQzGBQfk7JqsA6FN9bLsXQe1j/d2/hFyIXDhRAue/kAfCCMt3LRxx6cD98Vilyu2YdrmveEwaOlTof9FWaRpa7m+irk2cxSR9KeCjkLcrniJrN7J1zIK0/Gssd1sWBUft3WK6GXziaTWa6+aLTS6jct9Eq4Uz53qy9MuylMPW//m9149bxSkq5s/5kkhYPOCW0mxMFX17EI+UjGfZfFu79Iggsh/gHYxv+Z4WWfXaauhcITByGEENIHIYQQ0gchhBDSByGEENIHIYQQ0gchhBDSByGEENIHIYQQ0gchhBDSByGEENIHIYQQ0gchhBDSByGEENIHIYQQ0gchhBDSByGEENIH4V/ntUzIwxMD1Z1W2pS6V9hpm4njL2swdY+tEzd227MXuXg6PdCy1oHrtyNhz3QAZdF5O4o0+RBCCCGEEEIIIdTi/gDdEb+0nTBZfwAAAABJRU5ErkJggg==" height= "100" width = "100"><a href="/down/{{i['file']}}" height="100" width="100">Click Here</a></td>
+
+            </td>
+            <!-- <a href="user_uploadplot?aid={{ i['aadharam_id'] }}" class="btn btn-sm btn-warning">Add Plots</a> -->
+            <!-- <td><a href="/down/<path:path>">view Image</a></td> -->
+           
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+
+<!-- Modal for Fullscreen Image -->
+<div id="myModal" class="modal">
+    <span class="close" onclick="closeFullscreen()">&times;</span>
+    <img class="modal-content" id="img01">
+</div>
+
+{% include 'footer.html'%}
+
+<style>
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.title {
+    font-size: 2rem;
+    color: #2eca6a;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.upload-form {
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 600px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.upload-table {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.upload-table th {
+    text-align: left;
+    padding: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.upload-table td {
+    padding: 8px;
+}
+
+/* File Input Styling */
+.file-input {
+    padding: 5px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Button Styling */
+.btn-upload {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #2eca6a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-upload:hover {
+    background-color: #e68900;
+}
+
+/* View Table Styling */
+.view-table {
+    margin: 20px auto;
+    width: 80%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.view-table th {
+    background-color: #2eca6a;
+    color: #fff;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.view-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Image Styling */
+.aad-img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.aad-img:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.modal-content {
+    max-width: 80%;
+    max-height: 80%;
+    margin: auto;
+    display: block;
+    width: auto;
+    height: auto;
+    border-radius: 5px;
+}
+
+.close {
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    padding: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #ddd;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .upload-form, .view-table {
+        width: 90%;
+    }
+
+    .aad-img {
+        max-width: 200px;
+    }
+}
+</style>
+
+<script>
+// Function to open the modal with the clicked image
+function openFullscreen(img) {
+    var modal = document.getElementById("myModal");
+    var modalImg = document.getElementById("img01");
+    modal.style.display = "block";
+    modalImg.src = img.src;
+}
+
+// Function to close the modal
+function closeFullscreen() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
+</script>
+

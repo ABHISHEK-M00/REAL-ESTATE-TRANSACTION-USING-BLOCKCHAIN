@@ -1,0 +1,244 @@
+{% include 'user_header.html' %}
+
+<!-- View Request Section -->
+<section class="view-request-section">
+  <br><br><br>
+    <h1 class="section-title">VIEW OTHER PLOTS</h1>
+    <form action="{{ url_for('user.user_viewrequest') }}" method="post" class="request-form">
+        <table align="center" class="table-view">
+    <tr>
+        <th>DISTRICT</th>
+        <th>PANCHAYATH</th>
+        <th>CENT</th>
+        <th>ACRES</th>
+        <th>AMOUNT</th>
+        <th>DETAILS</th>
+        <!-- <th>STATUS</th> -->
+        <th>DATE</th>
+        <th>LOCATION</th>
+        <th>ACTION</th>
+    </tr>
+    {% for i in data['e'] %}
+    <tr>
+        <td>{{ i['district_name'] }}</td>
+        <td>{{ i['name'] }}</td>
+        <td>{{ i['cent'] }}</td>
+        <td>{{ '%.2f'|format(i['acre']) }}</td>
+        <td>{{ i['amount'] }}</td>
+        <td><textarea name="det" readonly class="form-control" rows="5" cols="20" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">{{ i['details'] }}</textarea>
+            <!-- <td>{{ i['status'] }}</td> -->
+        <td>{{ i['date'] }}</td>
+        <td>
+            <button type="button" class="btn btn-info btn-sm"
+                onclick="viewPlotLocation('{{ i['location'] }}')">Map</button>
+        </td>
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              Actions
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li>
+                <a href="user_sendrequestforplot?sid={{ i['sell_id'] }}&plid={{i['plot_id']}}" class="dropdown-item">
+                  <i class="fas fa-paper-plane"></i> SEND REQUEST
+                </a>
+              </li>
+              <li>
+                <a href="user_viewrequeststatus?sid={{ i['sell_id'] }}" class="dropdown-item">
+                  <i class="fas fa-info-circle"></i> REQUEST STATUS
+                </a>
+              </li>
+            </ul>
+          </div>
+        </td>
+
+        
+               
+    </tr>
+    {% endfor %}
+</table>
+</form>
+</section>
+
+
+
+
+<div id="dvMap" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3MPnSnyWwNmpnVEFkaddVvy_GWtxSejs"></script>
+<script>
+    // Initialize map for selecting a location
+    function initMap() {
+        const mapOptions = {
+            center: { lat: 9.9763482, lng: 76.286272 },
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+        };
+
+        const map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+
+        google.maps.event.addListener(map, "click", function (e) {
+            const latitude = e.latLng.lat();
+            const longitude = e.latLng.lng();
+            const location = `${latitude},${longitude}`;
+            document.getElementById("location").value = location;
+        });
+    }
+
+    // View specific plot location on map
+    function viewPlotLocation(location) {
+        if (!location || !location.includes(",")) {
+            alert("Invalid location data!");
+            return;
+        }
+
+        const [latitude, longitude] = location.split(",").map(coord => parseFloat(coord.trim()));
+
+        if (isNaN(latitude) || isNaN(longitude)) {
+            alert("Invalid coordinates!");
+            return;
+        }
+
+        const mapOptions = {
+            center: new google.maps.LatLng(latitude, longitude),
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+        };
+
+        const map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+
+        new google.maps.Marker({
+            position: new google.maps.LatLng(latitude, longitude),
+            map: map,
+            title: "Selected Location",
+        });
+    }
+</script>
+    
+
+{% include 'footer.html' %}
+
+<style>
+/* General Reset */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* View Plot Section */
+.view-plot-section {
+    padding: 40px 20px;
+    background: #ffffff;
+    margin: 30px auto;
+    max-width: 90%;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.section-header {
+    font-size: 2.5rem;
+    color: #2eca6a;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.section-header span {
+    color: #333;
+}
+
+/* Table Styles */
+.table-view {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table-view th,
+.table-view td {
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+}
+
+.table-view th {
+    background-color: #2eca6a;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.table-view td {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.table-view tr:last-child td {
+    border-bottom: none;
+}
+
+.table-view td button {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.table-view td button:hover {
+    background-color: #218838;
+}
+
+.view-request-btn {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.view-request-btn:hover {
+    text-decoration: underline;
+}
+
+/* Map Container */
+.map-container {
+    display: none; /* Hide the map initially */
+    width: 50%;
+    height: 400px;
+    margin-top: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .view-plot-section {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .section-header {
+        font-size: 2rem;
+    }
+
+    .table-view th,
+    .table-view td {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .table-view td button {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+}
+</style>
+
+
+
